@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <title>Page de commande</title>
+    <style>
+	img {
+  	display: block;
+  	margin-left: auto;
+  	margin-right: auto;
+	width: 20%
+	}
+    </style>
+  </head>
+  <body>
+
+    <img id="bg" src="{{ url_for('video_feed') }}" align="right" style="width: 30%">
+    <h1 align="left">Paramétrage:</h1>
+    <fieldset>
+    <legend>Select a model:</legend>
+    <div>
+      <input type="radio" id="SEGClip" name="model" value="SEGClip"
+             checked>
+      <label for="SEGClip">SEGClip</label>
+    </div>
+
+    <div>
+      <input type="radio" id="SAM Light" name="model" value="SAM Light">
+      <label for="SAM Light">SAM Lgiht</label>
+    </div>
+
+    <div>
+      <input type="radio" id="SAM Heavy" name="model" value="SAM Heavy">
+      <label for="SAM Heavy">SAM Heavy</label>
+    </div>
+</fieldset><br><br>
+
+<label for="story">Decrire l'bojet à rechercher (en anglais):</label><br>
+<textarea id="description" name="description"
+          rows="5" cols="33">
+a pen
+</textarea><br><br><br>
+
+<button type="button">Valider</button>
+
+  </body>
+</html>
