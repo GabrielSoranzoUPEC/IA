@@ -29,7 +29,17 @@ def index():
                 webcam_stream.update_mask(description,None)
             else:
                 webcam_stream.update_mask(description,model)
-    return render_template('index.html')
+    if webcam_stream.mask_model=="CLIPSeg":
+        checked=["checked","","","",""]
+    elif webcam_stream.mask_model=="CLIPSeg mask only":
+        checked=["","checked","","",""]
+    elif webcam_stream.mask_model=="CLIPSeg point only":
+        checked=["","","checked","",""]
+    elif webcam_stream.mask_model=="SAM":
+        checked=["","","","checked",""]
+    else:
+        checked=["","","","","checked"]
+    return render_template('index.html', description=webcam_stream.mask_description,checked=checked)
 
 def gen():
     while True:

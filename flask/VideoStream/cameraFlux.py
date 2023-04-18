@@ -61,11 +61,17 @@ class WebcamStream :
         basicMask=None
         if self.mask_model=="CLIPSeg":
             basicMask=basicMaskFromDescription(self.frame,self.mask_description,150)
-        if self.mask_model=="SAM":
-            basicMask=maskFromDescription(self.frame,self.mask_description)
-        if self.mask_model!=None:
             image=getMaskedImage(self.frame,basicMask)
-        else:
+        elif self.mask_model=="CLIPSeg mask only":
+            probImage=probImageFromDescription(self.frame,self.mask_description)
+            image=np.array(probImage * 255, dtype = np.uint8)
+        elif self.mask_model=="CLIPSeg point only":
+            coord=tuple((pointFromDescription(self.frame,self.mask_description)[0]))
+            image = cv2.circle(self.frame, coord, radius=10, color=(0, 0, 255), thickness=-1)
+        elif self.mask_model=="SAM":
+            basicMask=maskFromDescription(self.frame,self.mask_description)
+            image=getMaskedImage(self.frame,basicMask)
+        elif self.mask_model==None:
             image=self.frame
         ret, jpeg = cv2.imencode('.jpg', image)
         return jpeg.tobytes()

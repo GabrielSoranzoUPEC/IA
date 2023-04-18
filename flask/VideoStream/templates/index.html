@@ -18,23 +18,34 @@
       <fieldset>
       <legend>Select a model:</legend>
       <div>
-        <input type="radio" id="CLIPSeg" name="model" value="CLIPSeg"
-               checked>
+        <input type="radio" id="CLIPSeg" name="model" value="CLIPSeg" {{checked[0]}}>
         <label for="CLIPSeg">CLIPSeg</label>
+      </div>
+      
+      <div>
+        <input type="radio" id="CLIPSeg mask only" name="model" value="CLIPSeg mask only" {{checked[1]}}>
+        <label for="CLIPSeg mask only">CLIPSeg mask only</label>
       </div>
 
       <div>
-        <input type="radio" id="SAM" name="model" value="SAM">
+        <input type="radio" id="CLIPSeg point only" name="model" value="CLIPSeg point only" {{checked[2]}}>
+        <label for="CLIPSeg point only">CLIPSeg point only</label>
+      </div>
+
+
+
+      <div>
+        <input type="radio" id="SAM" name="model" value="SAM" {{checked[3]}}>
         <label for="SAM">SAM</label>
       </div>
 
       <div>
-        <input type="radio" id="None" name="model" value="None">
+        <input type="radio" id="None" name="model" value="None" {{checked[4]}}>
         <label for="None">None</label>
       </div>
       </fieldset><br><br>
 
-      <p>Description de l'objet à rechercher: <input name="description" value="a pen"/> </p>
+      <p>Description de l'objet à rechercher: <input name="description" value="{{description}}"/> </p>
 
       <p><input type="submit" value="Valider" /></p>
 
