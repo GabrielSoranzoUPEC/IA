@@ -32,8 +32,6 @@
         <label for="CLIPSeg point only">CLIPSeg point only</label>
       </div>
 
-
-
       <div>
         <input type="radio" id="SAM" name="model" value="SAM" {{checked[3]}}>
         <label for="SAM">SAM</label>
@@ -46,6 +44,26 @@
       </fieldset><br><br>
 
       <p>Description de l'objet à rechercher: <input name="description" value="{{description}}"/> </p>
+
+      <fieldset>
+      <legend>Action à exécuter:</legend>
+      <div>
+        <input type="radio" id="Take" name="action" value="Take" {{checked_act[0]}}>
+        <label for="Take">Take</label>
+      </div>
+      
+      <div>
+        <input type="radio" id="Drop" name="action" value="Drop" {{checked_act[1]}}>
+        <label for="Drop">Drop</label>
+      </div>
+
+      <div>
+        <input type="radio" id="Netiher" name="action" value="Neither" {{checked_act[2]}}>
+        <label for="Neither">Neither</label>
+      </div>
+      </fieldset><br><br>
+
+      <p>Action à exécuter: <input name="ordre" value="{{ordre}}"/> </p>
 
       <p><input type="submit" value="Valider" /></p>
 
