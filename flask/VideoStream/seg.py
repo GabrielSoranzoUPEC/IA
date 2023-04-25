@@ -44,6 +44,7 @@ modelCLIPSeg = CLIPSegForImageSegmentation.from_pretrained("CIDAS/clipseg-rd64-r
 
 # Chargement du modèle SAM: doit être localement dans le dossier d'exécution du notebook
 
+
 # Modèle "léger"
 sam_checkpoint = "sam_vit_b_01ec64.pth"
 model_type = "vit_b"
