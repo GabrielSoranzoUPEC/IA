@@ -11,14 +11,15 @@ print("\nInitilisation du flux vidéo")
 webcam_stream = WebcamStream(stream_id=0) # 0 id for main camera
 webcam_stream.start()
 
-ordre=""
-action="Neither"
+ordre="Take the glasses."
+action="Take"
+audio_file="/home/gs/Téléchargements/enregistrement.mp3"
 
 app = Flask(__name__)
 
 @app.route('/',methods=['GET','POST'])
 def index():
-    global ordre,action
+    global ordre,action,audio_file
 
     if request.method == "POST":
         errors=""
@@ -42,7 +43,7 @@ def index():
             action=result[0][0]
             score=result[1][0]
             print("Action: ",result)
-            if score>0.3 and (action=="Take" or action=="Drop"):
+            if score>0.1 and (action=="Take" or action=="Drop"):
                 description=findTarget(ordre,action)
                 print("Target: ", description)
             else:
@@ -92,7 +93,8 @@ def index():
     else:
         checked_act=["","","checked"]
 
-    return render_template('index.html', description=webcam_stream.mask_description,checked=checked,checked_act=checked_act,ordre=ordre)
+    return render_template('index.html', description=webcam_stream.mask_description,checked=checked,
+                           checked_act=checked_act,ordre=ordre,audio_file=audio_file)
 
 def gen():
     while True:

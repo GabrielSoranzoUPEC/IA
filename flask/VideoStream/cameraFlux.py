@@ -10,7 +10,7 @@ from seg import *
 # Class pour gérer le multi-threading du flux video
 class WebcamStream :
     # initialization method 
-    def __init__(self, stream_id=0,mask_description='a pen',mask_model="CLIPSeg"):
+    def __init__(self, stream_id=0,mask_description='glasses',mask_model="CLIPSeg"):
         self.stream_id = stream_id # default is 0 for main camera 
         # opening video capture stream 
         self.vcap  = cv2.VideoCapture(self.stream_id)

@@ -1,18 +1,19 @@
 <html>
   <head>
     <title>Page de commande</title>
+    <meta charset="utf-8">
     <style>
 	img {
-  	display: block;
-  	margin-left: auto;
-  	margin-right: auto;
-	width: 20%
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 20%
 	}
     </style>
   </head>
   <body>
 
-    <img id="bg" src="{{ url_for('video_feed') }}" align="right" style="width: 30%">
+    <img id="bg" src="{{ url_for('video_feed') }}" align="right" style="width: 30%" >
     <h1 align="left">Paramétrage:</h1>
     <form method="post" action=".">
       <fieldset>
@@ -66,10 +67,72 @@
       <p>Action à exécuter (si aucun ordre audio ci-dessous): <input name="ordre" value="{{ordre}}"/> </p>
 
       <p>Action à exécuter audio:
-      <input name="audio_file" value="{{audio_file}}"/> </p>
+      <input name="audio_file" value="{{audio_file}}" style="width: 500px;"/> </p>
 
       <p><input type="submit" value="Valider" /></p>
 
     </form>
+
+  <p>
+    Enregistrement d'un ordre:
+  </p>
+  <p>
+    <button type="button" id="record">Record</button>
+    <button type="button" id="stopRecord" disabled>Stop</button>
+  </p>
+  <p>
+    <audio id="recordedAudio"></audio>
+  </p>
+
+  <script>
+    navigator.mediaDevices.getUserMedia({audio:true})
+    .then(stream => {handlerFunction(stream)})
+
+
+    function handlerFunction(stream) {
+      rec = new MediaRecorder(stream);
+      rec.ondataavailable = e => {
+        audioChunks.push(e.data);
+        if (rec.state == "inactive"){
+          let blob = new Blob(audioChunks,{type:'audio/mp3'});
+          recordedAudio.src = URL.createObjectURL(blob);
+          recordedAudio.controls=true;
+          recordedAudio.autoplay=false;
+          sendData(blob)
+          }
+        }
+      }
+
+    function sendData(data) {
+        const url = window.URL.createObjectURL(data);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'enregistrement.mp3';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 100);
+    }
+
+    record.onclick = e => {
+    record.disabled = true;
+    record.style.backgroundColor = "blue"
+    stopRecord.disabled=false;
+    audioChunks = [];
+    rec.start();
+    }
+
+    stopRecord.onclick = e => {
+    record.disabled = false;
+    stop.disabled=true;
+    record.style.backgroundColor = "red"
+    rec.stop();
+    }
+
+  </script>
+
   </body>
 </html>
