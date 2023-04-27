@@ -3,6 +3,7 @@ from flask import Flask, render_template, Response, request
 from cameraFlux import WebcamStream
 import pandas as pd
 from nlp import *
+from voice import *
 
 
 # initializing and starting multi-threaded webcam input stream 
@@ -20,11 +21,21 @@ def index():
     global ordre,action
 
     if request.method == "POST":
+        errors=""
         try:
-            ordre=str(request.form["ordre"])
+            audio_file=str(request.form["audio_file"])
         except:
-            ordre="Valeur non valide"
-            error="Valeur non valide dans le champ ordre.<br>"
+            audio_file=""
+            error="Valeur non valide dans le champ audio_file<br>"
+
+        if audio_file!="":
+            ordre=audioToText(audio_file)
+        else:
+            try:
+                ordre=str(request.form["ordre"])
+            except:
+                ordre=""
+                error="Valeur non valide dans le champ ordre.<br>"
 
         if ordre!="":
             result=findAction(ordre)
@@ -59,6 +70,9 @@ def index():
                 webcam_stream.update_mask(description,None)
             else:
                 webcam_stream.update_mask(description,model)
+
+        if errors!="":
+            print(errors)
 
     if webcam_stream.mask_model=="CLIPSeg":
         checked=["checked","","","",""]
