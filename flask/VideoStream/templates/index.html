@@ -74,12 +74,18 @@
     </form>
 
   <p>
-    Enregistrement d'un ordre:
+    Enregistrement d'un ordre:<br>
   </p>
-  <p>
+  <form action="/upload-audio" method="POST" enctype="multipart/form-data">
     <button type="button" id="record">Record</button>
     <button type="button" id="stopRecord" disabled>Stop</button>
-  </p>
+  </form>
+
+
+<!--  <p>
+    <button type="button" id="record">Record</button>
+    <button type="button" id="stopRecord" disabled>Stop</button>
+  </p> -->
   <p>
     <audio id="recordedAudio"></audio>
   </p>
@@ -104,7 +110,34 @@
       }
 
     function sendData(data) {
-        const url = window.URL.createObjectURL(data);
+/*      const url = '/upload-audio';
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', url, true);
+      xhr.setRequestHeader('Content-Type', 'audio/mp3');
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          console.log('File uploaded successfully.');
+        }
+      };
+      xhr.send(data);*/
+      const uploadURL = '/upload-audio';
+      var form = new FormData();
+      form.append('audio', data, 'audio.mp3');
+      fetch(uploadURL, {
+            method: "POST",
+            cache: "no-cache",
+            body: form,
+            contentType: "multipart/form-data"
+          }).then(resp => {
+            if (resp.status === 200) {
+              window.location.reload(true);
+            } else {
+              console.error("Error:", resp)
+            }
+          }).catch(err => {
+            console.error(err);
+          });
+/*        const url = window.URL.createObjectURL(data);
         const a = document.createElement('a');
         a.style.display = 'none';
         a.href = url;
@@ -114,7 +147,7 @@
         setTimeout(() => {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
-        }, 100);
+        }, 100);*/
     }
 
     record.onclick = e => {

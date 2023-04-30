@@ -13,7 +13,7 @@ webcam_stream.start()
 
 ordre="Take the glasses."
 action="Take"
-audio_file="/home/gs/Téléchargements/enregistrement.mp3"
+audio_file="/home/gs/Info/IA/flask/VideoStream/audio.mp3"
 
 app = Flask(__name__)
 
@@ -101,6 +101,22 @@ def gen():
         frame = webcam_stream.read()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+@app.route('/upload-audio', methods=['POST'])
+def upload_audio():
+    for filename, file in request.files.items():
+        print(filename, file)
+
+    if 'audio' not in request.files:
+        print("Erreur de la reception de l'enregistrement audio")
+        return 'No file uploaded.', 400
+
+    print("Reception de l'enregistrement audio")
+    file = request.files['audio']
+    file.save('./audio.mp3')
+
+    return 'File uploaded successfully.', 200
+
 
 @app.route('/video_feed')
 def video_feed():
