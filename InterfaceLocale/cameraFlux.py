@@ -1,5 +1,6 @@
 import cv2
 from threading import Thread # library for multi-threading
+from seg import *
 
 
 
@@ -47,8 +48,10 @@ class WebcamStream :
         self.stopped = False
         self.t.start()
 
-    def update_mask(self,mask_description, mask_model):
-        self.mask_description=mask_description
+    def update_target(self,target):
+        self.mask_description=target
+
+    def update_mode(self,mask_model):
         self.mask_model=mask_model
 
     # method passed to thread to read next available frame
@@ -66,7 +69,7 @@ class WebcamStream :
     # method to return latest read frame
     def read(self):
         image=self.frame;
-        if self.mask_model!=None:
+        if self.mask_model not in {None,"None"}:
             probImage=probImageFromDescription(image,self.mask_description)
             probMax=np.max(probImage)
             if self.mask_model=="CLIPSeg":
@@ -94,6 +97,6 @@ class WebcamStream :
     # method to stop reading frames
     def stop(self):
         self.stopped = True
-
+        self.t.join()
 
 

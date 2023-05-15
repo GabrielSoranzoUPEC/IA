@@ -1,5 +1,8 @@
-import whisper
-from pydub import AudioSegment
+import warnings
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore")
+    import whisper
+    from pydub import AudioSegment
 
 print("Importation du modèle Whsiper pour le Voix->Texte")
 model = whisper.load_model("base")

@@ -1,8 +1,10 @@
 import os
 import sys
 
-from transformers import pipeline
+from transformers import pipeline,utils
 from transformers import AutoModelForQuestionAnswering, AutoTokenizer
+utils.logging.set_verbosity(50)
+
 import torch
 
 
