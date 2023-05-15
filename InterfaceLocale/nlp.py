@@ -1,14 +1,17 @@
-from transformers import pipeline
+import os
+import sys
 
+from transformers import pipeline
 from transformers import AutoModelForQuestionAnswering, AutoTokenizer
 import torch
 
 
+print("Importation du modèle NLP RoBERTa Classifieur pour identifier l'action")
 
 classifier = pipeline("zero-shot-classification",
                       model="joeddav/xlm-roberta-large-xnli")
 
-
+print("Importation du modèle NLP RoBERTa Génératif pour l'identification des cibles")
 nlp = pipeline('question-answering',
                model="deepset/roberta-base-squad2",
                tokenizer="deepset/roberta-base-squad2")
