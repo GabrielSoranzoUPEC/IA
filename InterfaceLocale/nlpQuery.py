@@ -2,7 +2,8 @@ import pickle
 import socket
 
 HOST = "127.0.0.1"  # The server's hostname or IP address
-PORT = 65432  # The port used by the server
+PORT = 65432  # The port used by the server for NLP
+PORT2 = 65433 # The port used by the server for NLP find container
 
 s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
